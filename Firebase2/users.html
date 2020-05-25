@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="C://Firebase2/css/estilo1.css">
+</head>
+<body>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+     <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyDyh8yNLJvhhGi3D27cJClnozBgIpeayLk",
+          authDomain: "test-loreto3.firebaseapp.com",
+          databaseURL: "https://test-loreto3.firebaseio.com",
+          projectId: "test-loreto3",
+          storageBucket: "test-loreto3.appspot.com",
+          messagingSenderId: "310872668009",
+          appId: "1:310872668009:web:f260136c5daf092f8d6ff8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+var refDB = firebase.database().ref().child('productos');
+var productos={};
+
+ver();
+
+function ver()
+{
+refDB.on('value',function(datos)
+{
+	  $("tbody").children().remove();
+    productos=datos.val();
+    // Recorremos los productos y los mostramos
+    $.each(productos, function(indice,valor)
+    {
+        var tBody = document.getElementById('dataTable').lastElementChild;
+        var tr1 = document.createElement('tr');
+        tBody.appendChild(tr1);
+        var prevProducto='<td>'+valor.codigo+'</td>';
+        prevProducto+='<td>'+valor.desc+'</td>';
+        prevProducto+='<td>'+valor.precio+'</td>';
+        prevProducto+='<td>'+valor.stock+'</td>';
+        prevProducto+='<td><button type="button" class="btn btn-warning" onclick="editar(\''+indice+'\')">Editar</button></td>';
+        prevProducto+='<td><button type="button" class="btn btn-danger" onclick="borrar(\''+indice+'\')">Borrar</button></td>';
+        $(prevProducto).appendTo(tr1);
+
+    });
+
+},function(objetoError){
+    console.log('Error de lectura:'+objetoError.code);
+});
+}
+
+function editar(id)
+{
+    // Para pasar el ID a otro proceso lo hacemos a través de window.name
+    window.name= id;
+
+    // Cargamos la página editarproducto.html
+    location.assign('editar.html');
+}
+
+function borrar(id)
+{
+	if(confirm("Está seguro que desea borrar el producto?")== true)
+	refDB.child(id).remove();
+}
+
+function buscar(producto)
+{
+	if(producto != '')
+	{
+
+	refDB.orderByChild('desc').equalTo(producto).limitToFirst(1).on('value',function(datos)
+	{
+		  $("tbody").children().remove();
+	    productos=datos.val();
+	    // Recorremos los productos y los mostramos
+	    $.each(productos, function(indice,valor)
+	    {
+	        var tBody = document.getElementById('dataTable').lastElementChild;
+	        var tr1 = document.createElement('tr');
+	        tBody.appendChild(tr1);
+	        var prevProducto='<td>'+valor.codigo+'</td>';
+	        prevProducto+='<td>'+valor.desc+'</td>';
+            prevProducto+='<td>'+valor.precio+'</td>';
+            prevProducto+='<td>'+valor.stock+'</td>';
+	        prevProducto+='<td><button type="button" class="btn btn-warning" onclick="editar(\''+indice+'\')">Editar</button></td>';
+	        prevProducto+='<td><button type="button" class="btn btn-danger" onclick="borrar(\''+indice+'\')">Borrar</button></td>';
+	        $(prevProducto).appendTo(tr1);
+
+	    });
+
+	},function(objetoError){
+	    console.log('Error de lectura:'+objetoError.code);
+	});
+}
+else{
+	ver();
+}
+}
+
+	</script>
+<div class="container-fluid" id="listado">
+        <h1>Listado de Productos</h1>
+				<form action="" method="post">
+					<label> Descripcion:</label>
+                    <input type="text" name="producto" id="producto">
+                    <button type="button" onclick="buscar(producto.value)">Buscar</button>
+                    <a href="nuevo.html"><input type="button" value="Agregar"></a>
+				</form>
+				<br><br>
+        <table id="dataTable" border-color="#000" width="800px">
+          <thead>
+     <th>Codigo</th><th>Descripcion</th><th>Precio</th><th>Stock</th><th colspan="2">Acciones</th>
+  </thead>
+  <tbody></tbody>
+</table>
+    </div>
+    
+</body>
+</html>

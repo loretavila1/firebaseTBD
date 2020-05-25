@@ -1,0 +1,59 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #008080;
+    opacity: inherit;
+}
+
+.container-fluid{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+div h1{
+    font-size: 50px;
+}
+
+div label{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+div input[type="text"]{
+    padding: 0;
+    margin: 0;
+}
+
+div button {
+  background: orange;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: black;
+}
+
+div input[type="button"]{
+    background: orange;
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: black;
+  }
+
+div table{
+    margin: auto;
+    background-color: white;
+    border-radius: 20px;
+    outline: none;
+
+    
+}
+
+table th{
+    background-color: orange;
+    border-radius: 20px;
+}
+
+
+
+
+

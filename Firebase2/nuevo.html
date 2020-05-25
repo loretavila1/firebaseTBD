@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Nuevo Producto</title>
+    <link rel="stylesheet" href="C://Firebase2/css/estilo2.css">
+  </head>
+
+  <body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyDyh8yNLJvhhGi3D27cJClnozBgIpeayLk",
+          authDomain: "test-loreto3.firebaseapp.com",
+          databaseURL: "https://test-loreto3.firebaseio.com",
+          projectId: "test-loreto3",
+          storageBucket: "test-loreto3.appspot.com",
+          messagingSenderId: "310872668009",
+          appId: "1:310872668009:web:f260136c5daf092f8d6ff8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+
+    var dataDB = firebase.database().ref('productos').push();
+
+    function enviar()
+    {
+      var codigo= document.getElementById('code')
+      var desc= document.getElementById('description')
+      var precio = document.getElementById('price')
+      var stock = document.getElementById('sto')
+      dataDB.set({
+        codigo: codigo.value,
+        desc: desc.value,
+        precio: precio.value,
+        stock: stock.value
+      });
+      alert('Producto registrado correctamente');
+    }
+  </script>
+  
+  <form class="box" action="" method="post">
+    <h1>Agregar nuevo Producto</h1>
+    <input type="text" name="code" id="code" placeholder="Escribe el codigo">
+    <input type="text" name="description" id="description" placeholder="Escribe la descripcion">
+    <input type="number" name="price" id="price" maxlength="10" placeholder="Escribe el precio">
+    <input type="number" name="sto" id="sto" maxlength="10" placeholder="Escribe el stock">
+    <button id="submit_button" type="submit" onclick="enviar()">Guardar</button>
+    <input type="button" onclick="location.href='users.html';" value="Regresar"/>
+  </form>
+  </body>
+</html>

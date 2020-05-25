@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Editar Usuario</title>
+  <link rel="stylesheet" href="C://Firebase2/css/estilo3.css">
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!--<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script> -->
+</head>
+<body>
+	<h1 id="holaMundo"></h1>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDyh8yNLJvhhGi3D27cJClnozBgIpeayLk",
+      authDomain: "test-loreto3.firebaseapp.com",
+      databaseURL: "https://test-loreto3.firebaseio.com",
+      projectId: "test-loreto3",
+      storageBucket: "test-loreto3.appspot.com",
+      messagingSenderId: "310872668009",
+      appId: "1:310872668009:web:f260136c5daf092f8d6ff8"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('productos');
+
+ var userId= window.name;
+
+    var codigo, desc, precio, stock;
+    var producto={};
+
+    // Buscamos el artículo.
+    dataDB.child(userId).once('value',function(datos)
+    {
+        producto=datos.val();
+
+        codigo= producto.codigo;
+        desc= producto.desc;
+        precio= producto.precio;
+        stock= producto.stock;
+
+        $('#code').val(codigo);
+        $('#description').val(desc);
+        $('#price').val(precio);
+        $('#sto').val(stock);
+    });
+
+function actualizar() {
+  // Se asigna a una variable cada elemento input con su ID
+var codigo = document.getElementById('code');
+var desc = document.getElementById('description');
+var precio = document.getElementById('price');
+var stock = document.getElementById('sto');
+
+dataDB.child(userId).update({
+  codigo: codigo.value,
+  desc: desc.value,
+  precio: precio.value,
+  stock: stock.value
+});
+
+    alert('Producto actualizado');
+}
+</script>
+
+  <form class= "box" action="" method="post">
+    <h1>Editar Producto</h1>
+    <input id="code" class="input" type="text" value="" placeholder="Codigo" required /><br />
+    <input id="description" class="input" type="text" value="" placeholder="Descrpcion" required /><br />
+  <input id="price" class="input" type="number" value="" maxlength="10" placeholder="Precio" required /><br />
+  <input id="sto" class="input" type="number" value="" maxlength="10" placeholder="Stock" required /><br />
+  <button id="submit_button" type="submit" onclick="actualizar()">Actualizar</button>
+  <input type="button" onclick="location.href='users.html';" value="Regresar"/>
+  </form>
+</body>
+</html>
